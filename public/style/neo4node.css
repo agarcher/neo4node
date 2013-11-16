@@ -1,0 +1,28 @@
+.input-area {
+	position: relative;
+	margin-bottom: 1em;
+}
+.input-area button {
+	margin-top: 0.5em;
+}
+
+#sub-content {
+	width: 100%;
+}
+
+#neo-output table,
+#neo-output table th {
+	border: 1px solid black;
+}
+#neo-output table td {
+	border-top: 1px solid #999999;
+}
+
+#neo-output table {
+	width: 100%;
+	margin-bottom: 1em;
+}
+#neo-output table td,
+#neo-output table th {
+	padding: 0.375em 0.625em;
+}

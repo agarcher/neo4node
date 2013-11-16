@@ -12,15 +12,21 @@ $('#post-button').click(function() {
         	$.each(statement.columns, function(i,v) {
         		resp += '<th>' + v + "</th>";
         	});
-        	resp +="</tr>"
+        	resp +="</tr>";
         	$.each(statement.data, function(i,v) {
         		resp += '<tr><td>';
         		resp += JSON.stringify(v.row);
         		resp += "</td></tr>";
         	});
         	resp += "</table>";
-        	
-        	$('#neo-output').html(resp);
+
+        	$('#neo-output').prepend($(resp));
+//        	var n = $('#neo-output');
+//        	if (n.children().length) {
+//        		$(resp).insertBefore(n.children()[0]);
+//        	} else {
+//        		n.addChild();
+//        	}
         	console.debug(resp);
         }
     }); 

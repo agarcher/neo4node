@@ -34,7 +34,7 @@ exports.postStatement= function(statement, callback, transactionId) {
 		"statements" : [ {
 			"statement" : statement
 		} ]
-	}
+	};
 	req.write($.toJSON(data));
 	req.end();
 }
