@@ -10,19 +10,30 @@
 	width: 100%;
 }
 
-#neo-output table,
-#neo-output table th {
-	border: 1px solid black;
-}
 #neo-output table td {
-	border-top: 1px solid #999999;
+	border-top: 1px solid #eeeeee;
+}
+#neo-output table td.border,
+#neo-output table th.border {
+	border-left: 1px solid #eeeeee;
 }
 
 #neo-output table {
 	width: 100%;
-	margin-bottom: 1em;
 }
 #neo-output table td,
 #neo-output table th {
 	padding: 0.375em 0.625em;
+}
+.result {
+	background-color: #aaaaaa;
+	border-radius: 4px;
+	margin: 0 0 1em;
+}
+.result > .heading {
+	background-color: #333333;
+	padding: 0.375em 0.625em;
+	color: white;
+	border-radius: 4px 4px 0 0;
+	font-weight: bold;
 }
