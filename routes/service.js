@@ -1,29 +1,28 @@
-var url = require("url");
+var http = require("http"),
+	url = require("url"),
+    $ = require("jquery"),
+    request = require("request");
 
 function postStatement(statement,callback,commit,transactionId) {
 	var segments = [];
 	if (transactionId) segments.push(transactionId);
 	if (commit) segments.push("commit");
 	var options = {
-	  hostname: 'localhost',
-	  port: 7474,
-	  path: '/db/data/transaction/' + segments.join("/"),
+	  uri: "http://localhost:7474/db/data/transaction/" + segments.join("/"),
 	  method: 'POST',
 	  headers: {
 		  "Accept": "application/json; charset=UTF-8",
 		  "Content-Type": "application/json"
-	  }
+	  },
+	  body: JSON.stringify({ "statements" : [{ "statement" : statement }] })
 	};
 
-	var req = http.request(options, function(res) {
+	var req = request(options, function(e, res, body) {
 	  console.log('STATUS: ' + res.statusCode);
 	  console.log('HEADERS: ' + JSON.stringify(res.headers));
-	  res.setEncoding('utf8');
-	  res.on('data', function (chunk) {
-	    console.log('BODY: ' + chunk);
-	  });
+	  console.log('body: ' + body);
 	  if (callback && typeof(callback) === "function") {
-		  callback(res);
+		  callback(body);
 	  }
 	});
 
@@ -34,27 +33,18 @@ function postStatement(statement,callback,commit,transactionId) {
 	  }
 	});
 
-	// write data to request body
-	var data = {
-		"statements" : [ { "statement" : statement } ]
-	};
-	req.write($.toJSON(data));
-	req.end();
 }
 
 exports.service = function(req, res){
 	var u = url.parse(req.url);
 	if (u.pathname.indexOf("/service/neo4j") === 0) {
-		console.log("a");
-		var body = $.parseJSON(req.body);
-		console.log("b");
-		postStatement(body.statement, function(innerRes) {
+		postStatement(req.body.statement, function(chunk) {
 			console.log("Got a response from neo4j!");
-			console.log(innerRes);
-		});
-		console.log("c");
+			console.log(chunk);
+			res.setHeader('content-type', 'application/json');
+			res.end(chunk);
+		}, true);
 	}
-	console.log("Sending to neo...");
-	res.end("Hopefully it works?");
+//	res.end("Hopefully it works?");
 };
 
